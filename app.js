@@ -9,12 +9,12 @@ const path = require("path");
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 
-app.use(express.urlencoded({extended:true}));
+app.use(express.urlencoded({extended:true})); //for parsing the requesting
 
-const methodOverride = require("method-override");
+const methodOverride = require("method-override"); //for overriding the request
 app.use(methodOverride("_method"));
 
-const ejsMate = require("ejs-mate");
+const ejsMate = require("ejs-mate"); //using ejs as view engine
 app.engine("ejs", ejsMate);
 
 app.use(express.static(path.join(__dirname, "/public")));
@@ -68,18 +68,18 @@ app.get("/listings/:id", async (req, res) => {
 
 //create route
 app.post("/listings", async (req, res) => {
-    const newlisting = new Listing(req.body.Listing);
+    const newlisting = new Listing(req.body.Listing); //we could do normally by parsing the respose like other routes, but we can make objecy key in the form named as 'Listing' in the form
     await newlisting.save();
     res.redirect("/listings");
 });
-
+ 
 //edit route
 app.get("/listings/:id/edit",async (req, res) => {
     let {id} = req.params;
     const listings = await Listing.findById(id);
     res.render("listings/edit.ejs", {listings})
 });
-
+ 
 //update route
 app.put("/listings/:id", async (req, res) => {
     let {id } = req.params;
